@@ -1,0 +1,32 @@
+# depslib dependency file v1.0
+1461085714 source:c:\users\asus\documents\projet_termite\projet_termite\progr_main.cpp
+	<iostream>
+	<vector>
+
+1461331896 
+
+1461056508 source:c:\users\asus\documents\projet_termite\projet_termite\termites.cpp
+	<iostream>
+	<cstdlib>
+	<ctime>
+	<vector>
+	<array>
+
+1461331896 source:f:\projet_termite\projet_termite\termites.cpp
+	<iostream>
+	<cstdlib>
+	<ctime>
+	<vector>
+
+1461347164 source:/media/ubuntu/ATTAHER/projet_termite/projet_termite/termites.cpp
+	<iostream>
+	<cstdlib>
+	<ctime>
+	<vector>
+
+1461417414 source:/home/ubuntu/Téléchargements/projet_termite/projet_termite/termites.cpp
+	<iostream>
+	<cstdlib>
+	<ctime>
+	<vector>
+
