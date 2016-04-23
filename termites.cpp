@@ -4,10 +4,9 @@
 #include <vector>
 using namespace std;
 
-
-const int taille = 40;
-const double pourcentage_termites = 1.;
-const double pourcentage_brindille = 5.;
+const int TAILLE = 40;
+const double POURCENTAGE_TERMITES = 1.;
+const double POURCENTAGE_BRINDILLES = 5.;
 
 enum {
     PLACE_TYPE_VIDE,
@@ -43,8 +42,8 @@ struct Termite {
     bool tourner_sur_place;
 };
 struct Terrain {
-    Place places[taille][taille];
-    Termite termites[taille*taille];
+    Place places[TAILLE][TAILLE];
+    Termite termites[TAILLE*TAILLE];
     int nbtermites;
 };
 
@@ -88,9 +87,9 @@ bool contient_brindille(Place &p) {
 
 void initialiseTerrain(Terrain &t) {
     t.nbtermites = 0;
-    for (int y = 0; y < taille; y++) {
-        for (int x = 0; x < taille; x++) {
-            if (aleatoire(pourcentage_termites/100.)) {
+    for (int y = 0; y < TAILLE; y++) {
+        for (int x = 0; x < TAILLE; x++) {
+            if (aleatoire(POURCENTAGE_TERMITES/100.)) {
                 // aleatoire est entre 0 et 1
 
                 Place p = t.places[y][x];
@@ -101,7 +100,7 @@ void initialiseTerrain(Terrain &t) {
                 t.termites[p.indtermite] = creerTermite(p.indtermite, x, y);
                 t.nbtermites++;
             } else {
-                if (aleatoire(pourcentage_brindille/100)) {
+                if (aleatoire(POURCENTAGE_BRINDILLES/100)) {
                     t.places[y][x].type = PLACE_TYPE_BRINDILLE;
                 } else {
                     t.places[y][x].type = PLACE_TYPE_VIDE;
@@ -134,9 +133,9 @@ void afficheTermite(Termite m) {
     }
 }
 void afficheTerrain(Terrain t) {
-    for(int y = 0; y < taille; y++) {
+    for(int y = 0; y < TAILLE; y++) {
         if (y) cout << endl;
-        for (int x = 0; x < taille; x++) {
+        for (int x = 0; x < TAILLE; x++) {
             Place p = t.places[y][x];
             int type_place = p.type;
             switch (type_place){
@@ -158,6 +157,7 @@ void afficheTerrain(Terrain t) {
             }
         }
     }
+    cout << endl << endl;
 }
 
 int main() {
