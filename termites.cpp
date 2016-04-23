@@ -8,7 +8,6 @@ using namespace std;
 const int taille = 40;
 const double pourcentage_termites = 1.;
 const double pourcentage_brindille = 5.;
-int nb_termites;
 
 enum {
     PLACE_TYPE_VIDE,
@@ -44,29 +43,34 @@ struct Termite {
     bool tourner_sur_place;
 };
 struct Terrain {
-    Place terrain[taille][taille];
-    Termite termites[taille][taille];
+    Place places[taille][taille];
+    Termite termites[taille*taille];
+    int nbtermites;
 };
 
 
 bool aleatoire(double p) {
     return rand() < p*(RAND_MAX + 1.);
 }
+int directionAleatoire() {
+    return rand() % NB_DIRECTIONS;
+}
 
-Coord creer_coord(int i, int j) {
+Coord creerCoord(int i, int j) {
    Coord c;
    c.x = i;
    c.y = j;
    return c;
 }
-void creer_termite(Termite &t,int i,int j) {
-    int ind_t;
-    t.coord = creer_coord(i,j);
-    t.indice=ind_t;
-    t.direction=rand()%8;
-    t.brindille=false;
-    t.tourner_sur_place=false;
-    t.sablier=0;
+Termite creerTermite(int indice, int x, int y) {
+    Termite m;
+    m.coord = creerCoord(x, y);
+    m.indice = indice;
+    m.direction = directionAleatoire();
+    m.brindille = false;
+    m.tourner_sur_place = false;
+    m.sablier = 0;
+    return m;
 }
 
 void place_vide(Place &p) {
@@ -82,32 +86,33 @@ bool contient_brindille(Place &p) {
     return true;
 }
 
-int directionAleatoire() {
-    return rand() % NB_DIRECTIONS;
-}
-
-void initialiseTerrain() {
-    Terrain t;
-    for (int i = 0; i < taille; i++) {
-        for (int j = 0; j < taille; j++) {
+void initialiseTerrain(Terrain &t) {
+    t.nbtermites = 0;
+    for (int y = 0; y < taille; y++) {
+        for (int x = 0; x < taille; x++) {
             if (aleatoire(pourcentage_termites/100.)) {
                 // aleatoire est entre 0 et 1
-                t.terrain[i][j].type = PLACE_TYPE_TERMITE;
-                t.terrain[i][j].indtermite = directionAleatoire(); // n'imp
+
+                Place p = t.places[y][x];
+                p.type = PLACE_TYPE_TERMITE;
+                p.indtermite = t.nbtermites;
+                t.places[y][x] = p;
+
+                t.termites[p.indtermite] = creerTermite(p.indtermite, x, y);
+                t.nbtermites++;
             } else {
-                t.terrain[i][j].indtermite = DIRECTION_HAUT; // n'imp
                 if (aleatoire(pourcentage_brindille/100)) {
-                    t.terrain[i][j].type = PLACE_TYPE_BRINDILLE;
+                    t.places[y][x].type = PLACE_TYPE_BRINDILLE;
                 } else {
-                    t.terrain[i][j].type = PLACE_TYPE_VIDE;
+                    t.places[y][x].type = PLACE_TYPE_VIDE;
                 }
             }
         }
     }
 }
 
-void afficheDirection(int direction) {
-    switch (direction) {
+void afficheTermite(Termite m) {
+    switch (m.direction) {
         case DIRECTION_GAUCHE:
         case DIRECTION_DROITE:
             cout << "-";
@@ -128,26 +133,28 @@ void afficheDirection(int direction) {
             cout << "D";
     }
 }
-void afficheTerrain(Place t[taille][taille]) {
-    for(int i = 0; i < taille; i++) {
-        if (i) cout << endl;
-        for(int j = 0; j < taille; j++) {
-            int type_place = t[i][j].type;
+void afficheTerrain(Terrain t) {
+    for(int y = 0; y < taille; y++) {
+        if (y) cout << endl;
+        for (int x = 0; x < taille; x++) {
+            Place p = t.places[y][x];
+            int type_place = p.type;
             switch (type_place){
                 case PLACE_TYPE_VIDE:{
-                    cout<<"-";
+                    cout << "-";
                 break;
                 }
                 case PLACE_TYPE_BRINDILLE:{
-                    cout<<"0";
+                    cout << "0";
                 break;
                 }
                 case PLACE_TYPE_TERMITE:{
-                    afficheDirection(t[i][j].indtermite);
+                    Termite m = t.termites[p.indtermite];
+                    afficheTermite(m);
                 break;
                 }
                 default:
-                    cout<<"?";
+                    cout << "?";
             }
         }
     }
@@ -155,8 +162,8 @@ void afficheTerrain(Place t[taille][taille]) {
 
 int main() {
     srand(time(NULL));
-    initialiseTerrain();
     Terrain t;
-    afficheTerrain(t.terrain);
+    initialiseTerrain(t);
+    afficheTerrain(t);
     return 0;
 }
