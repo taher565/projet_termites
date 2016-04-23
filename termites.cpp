@@ -43,6 +43,36 @@ bool contient_brindille(Place &p) {
     p.type = PLACE_TYPE_BRINDILLE;
     return true;
 }
+bool est_vide(Place &p){
+return  p.type=PLACE_TYPE_VIDE;
+}//verifie  par des booleens si une place est vide ou contient un termite ou une brindille
+
+/*Coord coord_devant(Termite t){
+int ind[8][2]={{0,1},{-1,1},{-1,0},{-1,-1},{0,-1},{1,-1},{1,0},{1,1}};
+ creerCoord(t.coord.x+ind[t.direction,0],t.coord.y+ind[t.direction,1]);
+}cette fonction genere une erreur que je vois pas du tout donc j'ai mis en commentaires les autres P/F suiccceptibles de l'appeller
+c'est la fonction pr donner la nouvelle coordonnee apres deplacement.
+aussi commente tes fonctions pour que je puisse comprendre plus facilement sans te deranger tout le temps
+
+void AGauche(Termite &t){ // modifie la direction du termite pour qu'il se tourne a gauche
+    t.direction = (t.direction + 1) % 8;
+}
+
+void ADroite(Termite &t){ // modifie la direction du termite pour qu'il se tourne a droite
+    if(t.direction-1 == -1)
+        t.direction = 7;
+    else{
+        t.Direction = t.direction-1;
+    }
+}
+
+void AvanceTermite(Termite &t){ // fonction qui fait avancer le termite d'une case
+Terrain T;
+    place_vide(Terrain[t.Coordonnees.x][t.Coordonnees.y]);
+    t.Coordonnees = CoordDevant(t);
+    T.place[t.Coordonnees.x][t.Coordonnees.y].indtermite = t.indice;
+}
+*/
 
 void initialiseTerrain(Terrain &t) {
     t.nbtermites = 0;
